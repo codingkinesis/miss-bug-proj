@@ -1,0 +1,66 @@
+.filter {
+    margin: 18px 0;
+    display: grid;
+    grid-template-columns: repeat(2, auto) 1fr;
+    grid-template-rows:repeat(4, auto);
+    grid-template-areas: 
+        "h . ."
+        "s r ."
+        "t t ."
+        "b d .";
+    background-color: var(--clr1bg-light);
+
+    & > * {
+        margin: 5px;
+    }
+
+    & .head {
+        grid-area: h;
+    }
+
+    & .search {
+        grid-area: s;
+    }
+
+    & .range {
+        grid-area: r;
+
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        gap: 6px;
+
+        & > * {
+            margin: 0;
+        }
+    }
+
+    & .tag-options {
+        grid-area: t;
+
+        display: grid;
+        grid-template-columns: auto 1fr;
+        
+        & .tags {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+
+            & > * {
+                padding: 3px;
+                margin: 2px;
+                border-radius: 10px;
+                box-shadow: 4px 4px 8px 2px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+
+    & .filter-sort-by {
+        grid-area: b;
+    }
+
+    & .filter-sort-dir {
+        grid-area: d;
+    }
+
+
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "u100",
+    "fullname": "Admin",
+    "username": "Mr Incharge",
+    "password": "Admin123Admin",
+    "score": 9999
+  },
+  {
+    "_id": "u101",
+    "fullname": "Alen Anderson",
+    "username": "AA",
+    "password": "A123A",
+    "score": 1000
+  },
+  {
+    "_id": "u102",
+    "fullname": "Bruse Boris",
+    "username": "BB",
+    "password": "B123B",
+    "score": 2000
+  },
+  {
+    "_id": "u103",
+    "fullname": "Conner Charls",
+    "username": "CC",
+    "password": "C123C",
+    "score": 3000
+  }
+]
