@@ -4,6 +4,7 @@ import { loggerService } from '../../services/logger.service.js'
 export const userService = {
     query,
     getById,
+    getByUsername,
     remove,
     save
 }
@@ -30,6 +31,15 @@ async function getById(userId) {
     }
 }
 
+async function getByUsername(userUsername) {
+    try {
+        return users.find(user => user.username === userUsername)
+    } catch (err) {
+        loggerService.error(`Had problem getting user ${userUsername}...`)
+        throw err
+    }
+}
+
 async function remove(userId) {
     const idx = users.findIndex(user => user._id === userId)
     users.splice(idx, 1)
@@ -50,6 +60,9 @@ async function save(userToSave) {
             users.splice(idx, 1, userToSave)
         } else {
             userToSave._id = _makeId()
+            userToSave.isAdmin = false
+            userToSave.score = 1000
+            userToSave.createdAt = Date.now()
             users.push(userToSave)
         }
 

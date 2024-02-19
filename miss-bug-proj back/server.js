@@ -19,9 +19,11 @@ app.use(cookieParser())
 
 import { bugRoutes } from './api/bug/bug.routes.js'
 import { userRoutes } from './api/user/user.routes.js'
+import { authRoutes } from './api/auth/auth.routes.js'
 
 app.use('/api/users', userRoutes)
 app.use('/api/bugs', bugRoutes)
+app.use('/api/auth', authRoutes)
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))

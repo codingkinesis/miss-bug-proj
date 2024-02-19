@@ -4,27 +4,44 @@
     "fullname": "Admin",
     "username": "Mr Incharge",
     "password": "Admin123Admin",
-    "score": 9999
+    "isAdmin": true,
+    "score": 9999,
+    "createdAt": 1707538894922
   },
   {
     "_id": "u101",
     "fullname": "Alen Anderson",
     "username": "AA",
     "password": "A123A",
-    "score": 1000
+    "isAdmin": false,
+    "score": 1000,
+    "createdAt": 1708018894922
   },
   {
     "_id": "u102",
     "fullname": "Bruse Boris",
     "username": "BB",
     "password": "B123B",
-    "score": 2000
+    "isAdmin": false,
+    "score": 2000,
+    "createdAt": 1708038894922
   },
   {
     "_id": "u103",
     "fullname": "Conner Charls",
     "username": "CC",
     "password": "C123C",
-    "score": 3000
+    "isAdmin": false,
+    "score": 3000,
+    "createdAt": 1708058894922
+  },
+  {
+    "fullname": "Darik Dolson",
+    "username": "DD",
+    "password": "$2b$13$OUkpzb6811mqmVtfvzqWh.IVzK/vNAfNAE5EzgiKu.0TH5wcIZSxq",
+    "_id": "k7puz2",
+    "isAdmin": false,
+    "score": 1000,
+    "createdAt": 1708257921694
   }
 ]

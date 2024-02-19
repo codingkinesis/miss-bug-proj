@@ -21,9 +21,9 @@ export async function getUserById(req, res) {
 }
 
 export async function createUser(req, res) {
-    const { fullname, username, password, score } = req.body
+    const { fullname, username, password } = req.body
     try {
-        const userToSave = await userService.save({ _id: undefined, fullname, username, password, score: +score })
+        const userToSave = await userService.save({ _id: undefined, fullname, username, password })
         res.send(userToSave)
     } catch (err) {
         res.status(400).send(`Couldn't update user...`)
@@ -31,9 +31,9 @@ export async function createUser(req, res) {
 }
 
 export async function updateUser(req, res) {
-    const { _id, fullname, username, password, score } = req.body
+    const { _id, fullname, username, password } = req.body
     try {
-        const userToSave = await userService.save({ _id, fullname, username, password, score: +score })
+        const userToSave = await userService.save({ _id, fullname, username, password })
         res.send(userToSave)
     } catch (err) {
         res.status(400).send(`Couldn't update user...`)

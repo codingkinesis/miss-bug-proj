@@ -9,18 +9,11 @@
       "html",
       "js",
       "css"
-    ]
-  },
-  {
-    "_id": "NQrVw2",
-    "title": "banana",
-    "description": "When the code looks like a banana.",
-    "severity": 1,
-    "createdAt": 1707138151699,
-    "tags": [
-      "js",
-      "need-cr"
-    ]
+    ],
+    "creator": {
+      "_id": "u100",
+      "fullname": "Admin"
+    }
   },
   {
     "_id": "afGmNc",
@@ -33,7 +26,11 @@
       "critical",
       "html",
       "js"
-    ]
+    ],
+    "creator": {
+      "_id": "u102",
+      "fullname": "Bruse Boris"
+    }
   },
   {
     "_id": "lrsb28",
@@ -46,7 +43,11 @@
       "dev-branch",
       "html",
       "js"
-    ]
+    ],
+    "creator": {
+      "_id": "u103",
+      "fullname": "Conner Charls"
+    }
   },
   {
     "_id": "pu5Gnr",
@@ -59,6 +60,37 @@
       "js",
       "html",
       "css"
-    ]
+    ],
+    "creator": {
+      "_id": "u101",
+      "fullname": "Alen Anderson"
+    }
+  },
+  {
+    "_id": "BAAtzW",
+    "title": "stack overflow",
+    "description": "you ran out of memory",
+    "severity": 3,
+    "tags": [
+      "dev-branch",
+      "css"
+    ],
+    "creator": {},
+    "createdAt": 1708341391692
+  },
+  {
+    "_id": "N6v86s",
+    "title": "banana",
+    "description": "When the code looks like a banana.",
+    "severity": 1,
+    "tags": [
+      "js",
+      "need-cr"
+    ],
+    "creator": {
+      "_id": "u101",
+      "fullname": "Alen Anderson"
+    },
+    "createdAt": 1708344991437
   }
 ]
