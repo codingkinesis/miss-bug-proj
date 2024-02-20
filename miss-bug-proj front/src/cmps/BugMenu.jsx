@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { bugService } from "../services/bug.service"
+import { bugService } from '../services/bug.service.js' // local
 
 export function BugMenu({bugToEdit, onSaveBug, onSetDisplay}) {
     const modalRef = useRef()

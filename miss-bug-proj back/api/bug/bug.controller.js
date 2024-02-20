@@ -39,25 +39,21 @@ export async function getBugById(req, res) {
 
 export async function createBug(req, res) {
     const { title, description, severity, tags } = req.body
-    const loggedInUser = authService.validateToken(req.cookies.loginToken)
     try {
-        const creator = { _id: loggedInUser._id, fullname: loggedInUser.fullname }
-
-        const bugToSave = await bugService.save({ _id: undefined, title, description, severity: +severity, tags, creator })
-        res.send(bugToSave)
+        const bugToSave = { _id: undefined, title, description, severity: +severity, tags }
+        const savedBug = await bugService.save(bugToSave, req.loggedInUser)
+        res.send(savedBug)
     } catch (err) {
         res.status(400).send(`Couldn't save bug...`)
     }
 }
 
 export async function updateBug(req, res) {
-    const { _id, title, description, severity , createdAt, tags, creator } = req.body
+    const { _id, title, description, severity, tags } = req.body
     try {
-        // const loggedInUser = authService.validateToken(req.cookies.loginToken)
-        // if(loggedInUser._id !== creator._id) res.status(403).send(`Not your bug...`)
-
-        const bugToSave = await bugService.save({ _id, title, description, severity: +severity, createdAt: +createdAt, tags, creator })
-        res.send(bugToSave)
+        const bugToSave = { _id, title, description, severity: +severity, tags }
+        const savedBug = await bugService.save(bugToSave, req.loggedInUser)
+        res.send(savedBug)
     } catch (err) {
         res.status(400).send(`Couldn't save bug...`)
     }
@@ -65,13 +61,10 @@ export async function updateBug(req, res) {
 
 export async function deleteBug(req, res) {
     const { bugId } = req.params
-    // const loggedInUser = authService.validateToken(req.cookies.loginToken)
-    // if(!loggedInUser) return res.status(401).send('Not authenticated')
-
     try {
-        await bugService.remove(bugId)
+        await bugService.remove(bugId, req.loggedInUser)
         res.send(`bug ${bugId} was removed`)
     } catch (err) {
-        res.status(400).send(`Couldn't remove bug...`)
+        res.status(err.code).send(`Couldn't remove bug : ${err.msg}`)
     }
 }

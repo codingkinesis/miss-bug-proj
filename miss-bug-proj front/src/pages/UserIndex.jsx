@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { UserPreview } from "../cmps/UserPreview"
-import { userService } from "../services/user.service"
+import { userService } from "../services/user.service.js" // local
 import { List } from "../cmps/List"
 import { UserMenu } from "../cmps/UserMenu"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
@@ -14,7 +14,7 @@ export function UserIndex() {
     }, [])
     
     async function loadUsers() {
-        const users = await userService.query()
+        const users = await userService.getUsers()
         setUsers(users)
     }
 
@@ -32,7 +32,7 @@ export function UserIndex() {
   
     async function onAddUser(user) {
       try {
-        const savedUser = await userService.save(user)
+        const savedUser = await userService.create(user)
         console.log('Added User', savedUser)
         setUsers(prevUsers => [...prevUsers, savedUser])
         showSuccessMsg('User added')
@@ -44,7 +44,7 @@ export function UserIndex() {
   
     async function onEditUser(user) {
       try {
-        const savedUser = await userService.save(user)
+        const savedUser = await userService.update(user)
         console.log('Updated user:', savedUser)
         setUsers(prevUsers => prevUsers.map((currUser) =>
           currUser._id === savedUser._id ? savedUser : currUser

@@ -1,5 +1,5 @@
-import { bugService } from '../services/bug.service.js'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
+import { bugService } from '../services/bug.service.js' // local
+import { showSuccessMsg, showErrorMsg, eventBusService } from '../services/event-bus.service.js'
 import { List } from '../cmps/List.jsx'
 import { useCallback, useRef, useState } from 'react'
 import { useEffect } from 'react'
@@ -7,6 +7,7 @@ import { Filter } from '../cmps/Filter.jsx'
 import { utilService } from '../services/util.service.js'
 import { BugMenu } from '../cmps/BugMenu.jsx'
 import { BugPreview } from '../cmps/BugPreview.jsx'
+import { userService } from '../services/user.service.js'
 
 
 export function BugIndex() {
@@ -66,6 +67,10 @@ export function BugIndex() {
     }
   }
 
+  function isAllowed() {
+    return userService.getLoggedinUser()
+}
+
   if(!bugs) return <></>
   const onSaveBug = bugMenu === 'add' ? onAddBug : onEditBug
   return (
@@ -73,7 +78,7 @@ export function BugIndex() {
       <h2>Bugs App</h2>
       <main>
         <Filter filterBy={filterBy} onSetFilterBy={debounceSetFilterBy} />
-        <button onClick={() => setBugMenu('add')}>Add Bug ⛐</button>
+        {isAllowed() && <button onClick={() => setBugMenu('add')}>Add Bug ⛐</button>}
         <List items={bugs} itemType={'bug'} ItemPreview={BugPreview} onRemoveItem={onRemoveBug} onEditItem={setBugMenu} />
       </main>
       {bugMenu && <BugMenu bugToEdit={bugMenu} onSaveBug={onSaveBug} onSetDisplay={setBugMenu}/>}

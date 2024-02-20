@@ -26,14 +26,21 @@ export async function createUser(req, res) {
         const userToSave = await userService.save({ _id: undefined, fullname, username, password })
         res.send(userToSave)
     } catch (err) {
-        res.status(400).send(`Couldn't update user...`)
+        res.status(400).send(`Couldn't create user...`)
     }
 }
 
 export async function updateUser(req, res) {
     const { _id, fullname, username, password } = req.body
+    const loggedInUser = authService.validateToken(req.cookies.loginToken)
     try {
         const userToSave = await userService.save({ _id, fullname, username, password })
+        
+        if (loggedInUser._id === userToSave._id) {
+            const loginToken = authService.getLoginToken(userToSave)
+        
+            res.cookie('loginToken', loginToken, {sameSite: 'None', secure: true})
+        }
         res.send(userToSave)
     } catch (err) {
         res.status(400).send(`Couldn't update user...`)

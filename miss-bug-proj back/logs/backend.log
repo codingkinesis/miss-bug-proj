@@ -464,3 +464,76 @@
 19.2.2024, 14:20:25 - INFO - Listening to server on port 3030
 19.2.2024, 14:22:12 - INFO - Listening to server on port 3030
 19.2.2024, 14:54:45 - INFO - Listening to server on port 3030
+20.2.2024, 11:33:40 - INFO - Listening to server on port 3030
+20.2.2024, 11:45:19 - INFO - Listening to server on port 3030
+20.2.2024, 11:46:16 - INFO - Listening to server on port 3030
+20.2.2024, 11:55:03 - INFO - Listening to server on port 3030
+20.2.2024, 11:56:17 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 11:57:18 - DEBUG - auth.service - signup with username aesrdtfgh, fullname aesrdfgh
+20.2.2024, 11:57:19 - DEBUG - auth.route - new account created {"fullname":"aesrdfgh","username":"aesrdtfgh","password":"$2b$13$nABY5c2TxGkUtmvLe8GtPeYdECkWaqSz81G.PNBOi/3yOl3MvxhlS","_id":"d7yRAF","isAdmin":false,"score":1000,"createdAt":1708423039458}
+20.2.2024, 11:57:19 - INFO - User signup: {"_id":"d7yRAF","fullname":"aesrdfgh","score":1000,"isAdmin":false}
+20.2.2024, 11:58:28 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 11:59:25 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 12:00:33 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 12:06:51 - INFO - Listening to server on port 3030
+20.2.2024, 12:10:03 - DEBUG - auth.service - signup with username sdfg, fullname asd
+20.2.2024, 12:10:04 - DEBUG - auth.route - new account created {"fullname":"asd","username":"sdfg","password":"$2b$13$s7AvQX3gm.EDcROuL1WgtOTb.Isb2lGbsZlzu.B0tV2sjeeUNcEK2","_id":"3eGyDn","isAdmin":false,"score":1000,"createdAt":1708423804515}
+20.2.2024, 12:10:04 - INFO - User signup: {"_id":"3eGyDn","fullname":"asd","score":1000,"isAdmin":false}
+20.2.2024, 12:10:11 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 12:16:03 - INFO - Listening to server on port 3030
+20.2.2024, 12:16:21 - INFO - Listening to server on port 3030
+20.2.2024, 12:16:38 - INFO - Listening to server on port 3030
+20.2.2024, 12:17:22 - INFO - Listening to server on port 3030
+20.2.2024, 12:19:43 - INFO - Listening to server on port 3030
+20.2.2024, 12:21:28 - INFO - Listening to server on port 3030
+20.2.2024, 12:23:54 - INFO - Listening to server on port 3030
+20.2.2024, 12:26:01 - INFO - Listening to server on port 3030
+20.2.2024, 12:28:56 - INFO - Listening to server on port 3030
+20.2.2024, 12:29:08 - INFO - Listening to server on port 3030
+20.2.2024, 12:30:38 - INFO - User login: {"_id":"u101","fullname":"Alen Anderson","score":1000,"isAdmin":false}
+20.2.2024, 12:32:31 - ERROR - bugService[remove] bugId - afGmNc , loggedInUser - [object Object] : Not your bug
+20.2.2024, 12:33:26 - INFO - Listening to server on port 3030
+20.2.2024, 12:33:29 - ERROR - bugService[remove] bugId - afGmNc , loggedInUser - {"_id":"u101","fullname":"Alen Anderson","score":1000,"isAdmin":false} : Not your bug
+20.2.2024, 12:34:46 - INFO - User login: {"_id":"u102","fullname":"Bruse Boris","score":2000,"isAdmin":false}
+20.2.2024, 12:36:11 - INFO - Listening to server on port 3030
+20.2.2024, 12:39:27 - INFO - Listening to server on port 3030
+20.2.2024, 12:41:05 - INFO - Listening to server on port 3030
+20.2.2024, 12:42:40 - INFO - Listening to server on port 3030
+20.2.2024, 12:43:19 - ERROR - bugService[remove] bugId - N6v86s , loggedInUser - {"_id":"u102","fullname":"Bruse Boris","score":2000,"isAdmin":false} : Not your bug
+20.2.2024, 13:09:57 - INFO - Listening to server on port 3030
+20.2.2024, 13:12:11 - INFO - Listening to server on port 3030
+20.2.2024, 13:27:47 - INFO - User login: {"_id":"u102","fullname":"Bruse Boris","score":2000,"isAdmin":false}
+20.2.2024, 13:28:52 - INFO - User login: {"_id":"u103","fullname":"Conner Charls","score":3000,"isAdmin":false}
+20.2.2024, 13:29:00 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 13:33:32 - INFO - Listening to server on port 3030
+20.2.2024, 13:34:03 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 13:54:23 - INFO - User login: {"_id":"u101","fullname":"Alen Anderson","score":1000,"isAdmin":false}
+20.2.2024, 13:57:08 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 13:57:53 - DEBUG - auth.service - signup with username aesrdfgh, fullname sdfgh
+20.2.2024, 13:57:53 - INFO - User signup: {"_id":"MDgUeU","fullname":"sdfgh","score":1000,"isAdmin":false}
+20.2.2024, 13:57:53 - DEBUG - auth.route - new account created {"fullname":"sdfgh","username":"aesrdfgh","password":"$2b$13$mLuUGOV5Y6ZkALDE7ABmGunuX6QiSEmVfhLBu9vE5Gx.3X81YPqAG","_id":"MDgUeU","isAdmin":false,"score":1000,"createdAt":1708430273987}
+20.2.2024, 13:58:18 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 14:01:57 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 14:03:08 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 14:31:31 - INFO - Listening to server on port 3030
+20.2.2024, 14:34:50 - INFO - Listening to server on port 3030
+20.2.2024, 14:37:53 - INFO - User login: {"_id":"u100","fullname":"Admin","score":9999,"isAdmin":true}
+20.2.2024, 14:38:07 - INFO - User login: {"_id":"u102","fullname":"Bruse Boris","score":2000,"isAdmin":false}
+20.2.2024, 15:35:17 - INFO - Listening to server on port 3030
+20.2.2024, 15:39:14 - INFO - Listening to server on port 3030
+20.2.2024, 15:46:38 - INFO - Listening to server on port 3030
+20.2.2024, 15:47:54 - INFO - Listening to server on port 3030
+20.2.2024, 15:48:15 - INFO - Listening to server on port 3030
+20.2.2024, 15:48:44 - INFO - Listening to server on port 3030
+20.2.2024, 15:50:16 - INFO - Listening to server on port 3030
+20.2.2024, 15:50:28 - INFO - Listening to server on port 3030
+20.2.2024, 15:51:10 - INFO - Listening to server on port 3030
+20.2.2024, 15:53:33 - INFO - Listening to server on port 3030
+20.2.2024, 15:55:32 - INFO - Listening to server on port 3030
+20.2.2024, 15:56:29 - INFO - Listening to server on port 3030
+20.2.2024, 15:57:00 - INFO - Listening to server on port 3030
+20.2.2024, 16:01:50 - INFO - Listening to server on port 3030
+20.2.2024, 16:04:17 - INFO - Listening to server on port 3030
+20.2.2024, 16:09:26 - INFO - Listening to server on port 3030
+20.2.2024, 16:09:36 - INFO - Listening to server on port 3030
+20.2.2024, 16:09:47 - INFO - Listening to server on port 3030

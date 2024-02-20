@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
-import { userService } from "../services/user.service"
+import { userService } from "../services/user.service.js" // local
 
 export function UserMenu({userToEdit, onSaveUser, onSetDisplay}) {
     const modalRef = useRef()
-    const [user, setUser] = useState(userToEdit === 'add' ? userService.getDefaultUser() : {...userToEdit})
+    const [user, setUser] = useState(userToEdit === 'add' ? userService.getEmptyUser() : {...userToEdit})
 
     useEffect(() => {
         setTimeout(() => {

@@ -51,26 +51,36 @@ async function getById(bugId) {
     }
 }
 
-async function remove(bugId) {
-    const idx = bugs.findIndex(bug => bug._id === bugId)
-    bugs.splice(idx, 1)
-
+async function remove(bugId, loggedInUser) {
     try {
+        const idx = bugs.findIndex(bug => bug._id === bugId)
+
+        if(idx === -1) throw `Couldn't find bug with _id ${bugId}`
+
+        const bug = bugs[idx]
+        if(!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw {msg:`Not your bug`, code: 403}
+
+        bugs.splice(idx, 1)
         _saveBugsToFile(bugsFilePath)
     } catch (err) {
-        loggerService.error(`Had problem removing bug ${bugId}...`)
+        loggerService.error(`bugService[remove] bugId - ${bugId} , loggedInUser - ${JSON.stringify(loggedInUser)} : ${err.msg}`)
         throw err
     }
 }
 
-async function save(bugToSave) {
+async function save(bugToSave, loggedInUser) {
     try {
         if(bugToSave._id) {
             const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
             if(idx === -1) throw 'Bad Id'
-            bugs.splice(idx, 1, bugToSave)
+
+            const bug = bugs[idx]
+            if(!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw {msg:`Not your bug`, code: 403}
+        
+            bugs.splice(idx, 1, {...bug, ...bugToSave})
         } else {
             bugToSave._id = _makeId()
+            bugToSave.owner = { _id: loggedInUser._id, fullname: loggedInUser.fullname }
             bugToSave.createdAt = Date.now()
             bugs.push(bugToSave)
         }
