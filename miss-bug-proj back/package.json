@@ -5,8 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start:win": "set PORT=3030 & node server.js",
-    "start:mac": "export PORT=3030 && node server.js",
+    "start": "node server.js",
     "dev": "set PORT=3030 && nodemon --ignore \"./data\" server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
