@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import path from'path'
+import dotenv from 'dotenv'
 import { loggerService } from './services/logger.service.js'
 
 const app = express()
@@ -28,6 +29,7 @@ app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
 })
 
+dotenv.config()
 const PORT = process.env.PORT || 3030
 app.listen(PORT, () => {
     loggerService.info(`Listening to server on port ${PORT}`)
