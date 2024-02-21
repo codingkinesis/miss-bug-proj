@@ -13,9 +13,9 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-app.use(express.static('public'))
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static('public'))
 
 import { bugRoutes } from './api/bug/bug.routes.js'
 import { userRoutes } from './api/user/user.routes.js'
@@ -30,7 +30,7 @@ app.get('/**', (req, res) => {
 })
 
 dotenv.config()
-const PORT = process.env.PORT || 3030
-app.listen(PORT, () => {
-    loggerService.info(`Listening to server on port ${PORT}`)
+const port = process.env.PORT || 3030
+app.listen(port, () => {
+    loggerService.info(`Listening to server on port ${port}`)
 })
