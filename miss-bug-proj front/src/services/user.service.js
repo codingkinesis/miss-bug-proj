@@ -2,7 +2,7 @@ import Axios from 'axios'
 const axios = Axios.create({withCredentials: true})
 
 const BASE_URL = (process.env.NODE_ENV !== 'development') ?
-    '/api/users/' :
+    '/api/' :
     '//localhost:3030/api/'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
