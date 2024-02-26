@@ -1,3 +1,4 @@
+import { authService } from "../auth/auth.service.js"
 import { userService } from "./user.service.js"
 
 export async function getUsers(req, res) {
@@ -31,12 +32,11 @@ export async function createUser(req, res) {
 }
 
 export async function updateUser(req, res) {
-    const { _id, fullname, username, password } = req.body
-    const loggedInUser = authService.validateToken(req.cookies.loginToken)
+    const { _id, username, score } = req.body
     try {
-        const userToSave = await userService.save({ _id, fullname, username, password })
+        const userToSave = await userService.save({ _id, username, score})
         
-        if (loggedInUser._id === userToSave._id) {
+        if (req.loggedInUser._id === userToSave._id) {
             const loginToken = authService.getLoginToken(userToSave)
         
             res.cookie('loginToken', loginToken, {sameSite: 'None', secure: true})

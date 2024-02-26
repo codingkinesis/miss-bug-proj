@@ -1,5 +1,8 @@
-import fs from 'fs'
 import { loggerService } from '../../services/logger.service.js'
+import { dbService } from '../../services/db.service.js'
+import mongodb from 'mongodb'
+const { ObjectId } = mongodb
+const collectionName = 'user'
 
 export const userService = {
     query,
@@ -9,13 +12,16 @@ export const userService = {
     save
 }
 
-const usersFilePath = './data/users.json'
-var users = _readJsonFile(usersFilePath)
-
 async function query() {
     try {
-        let filteredUser = [...users]
-        return filteredUser
+        const collection = await dbService.getCollection(collectionName)
+        var users = await collection.find().toArray()
+        users = users.map(user => {
+            delete user.password
+            user.createdAt = new ObjectId(user._id).getTimestamp().getTime()
+            return user
+        })
+        return users
     } catch (err) {
         loggerService.error('Had problem getting user...')
         throw err
@@ -24,7 +30,11 @@ async function query() {
 
 async function getById(userId) {
     try {
-        return users.find(user => user._id === userId)
+        const collection = await dbService.getCollection(collectionName)
+        var user = await collection.findOne({_id: new ObjectId(userId)})
+        delete user.password
+        user.createdAt = new ObjectId(userId).getTimestamp().getTime()
+        return user
     } catch (err) {
         loggerService.error(`Had problem getting user ${userId}...`)
         throw err
@@ -33,7 +43,11 @@ async function getById(userId) {
 
 async function getByUsername(userUsername) {
     try {
-        return users.find(user => user.username === userUsername)
+        const collection = await dbService.getCollection(collectionName)
+        var user = await collection.findOne({username: userUsername})
+        delete user.password
+        user.createdAt = new ObjectId(user.id).getTimestamp().getTime()
+        return user
     } catch (err) {
         loggerService.error(`Had problem getting user ${userUsername}...`)
         throw err
@@ -41,11 +55,9 @@ async function getByUsername(userUsername) {
 }
 
 async function remove(userId) {
-    const idx = users.findIndex(user => user._id === userId)
-    users.splice(idx, 1)
-
     try {
-        _saveUsersToFile(usersFilePath)
+        const collection = await dbService.getCollection(collectionName)
+        var user = await collection.deleteOne({_id: new ObjectId(userId)})
     } catch (err) {
         loggerService.error(`Had problem removing user ${userId}...`)
         throw err
@@ -54,19 +66,16 @@ async function remove(userId) {
 
 async function save(userToSave) {
     try {
+        const collection = await dbService.getCollection(collectionName)
         if(userToSave._id) {
-            const idx = users.findIndex(user => user._id === userToSave._id)
-            if(idx === -1) throw 'Bad Id'
-            users.splice(idx, 1, userToSave)
+            userToSave._id = new ObjectId(userToSave._id)
+            await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
         } else {
-            userToSave._id = _makeId()
             userToSave.isAdmin = false
             userToSave.score = 1000
-            userToSave.createdAt = Date.now()
-            users.push(userToSave)
+            await collection.insertOne(userToSave)
         }
 
-        _saveUsersToFile(usersFilePath)
         return userToSave
     } catch (err) {
         loggerService.error(`Had problem saving user ${userId}...`)
@@ -83,20 +92,4 @@ function _makeId(length = 6) {
     }
 
     return txt
-}
-
-function _readJsonFile(path) {
-    const str = fs.readFileSync(path, 'utf8')
-    const json = JSON.parse(str)
-    return json
-}
-
-function _saveUsersToFile(path) {
-    return new Promise((resolve, reject) => {
-        const data = JSON.stringify(users, null, 2)
-        fs.writeFile(path, data, (err) => {
-            if (err) return reject(err)
-            return resolve()
-        })
-    })
 }

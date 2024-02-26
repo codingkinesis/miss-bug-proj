@@ -1,5 +1,8 @@
-import fs from 'fs'
+import { dbService } from '../../services/db.service.js'
 import { loggerService } from '../../services/logger.service.js'
+import mongodb from 'mongodb'
+const { ObjectId } = mongodb
+const collectionName = 'bug'
 
 export const bugService = {
     query,
@@ -8,34 +11,12 @@ export const bugService = {
     save
 }
 
-const bugsFilePath = './data/bugs.json'
-var bugs = _readJsonFile(bugsFilePath)
-
 async function query(filterBy) {
     try {
-        let filteredBugs = [...bugs]
-        
-        // apply filtering
-        filteredBugs = filteredBugs.filter(bug => !filterBy.title || new RegExp(filterBy.title, 'i').test(bug.title))
-        filteredBugs = filteredBugs.filter(bug => !filterBy.severity || bug.severity >= filterBy.severity)
-        filteredBugs = filteredBugs.filter(bug => !filterBy.tags.length || filterBy.tags.filter(tag => bug.tags.includes(tag)).length === filterBy.tags.length)
-
-        // apply sorting
-        switch(filterBy.sortBy) {
-            case 'title':
-                if(filterBy.sortDir > 0) filteredBugs = filteredBugs.sort((a,b) => a.title.localeCompare(b.title))
-                else filteredBugs = filteredBugs.sort((a,b) => b.title.localeCompare(a.title))
-                break
-            case 'severity':
-                if(filterBy.sortDir > 0) filteredBugs = filteredBugs.sort((a,b) => a.severity - b.severity)
-                else filteredBugs = filteredBugs.sort((a,b) => b.severity - a.severity)
-                break
-            case 'createdAt':
-                if(filterBy.sortDir > 0) filteredBugs = filteredBugs.sort((a,b) => a.createdAt - b.createdAt)
-                else filteredBugs = filteredBugs.sort((a,b) => b.createdAt - a.createdAt)
-                break
-        }
-        return filteredBugs
+        const collection = await dbService.getCollection(collectionName)
+        const criteria = _buildCriteria(filterBy)
+        const bugs = await collection.find(criteria.filter).sort(criteria.sort).toArray();
+        return bugs
     } catch (err) {
         loggerService.error('Had problem getting bugs...')
         throw err
@@ -44,7 +25,10 @@ async function query(filterBy) {
 
 async function getById(bugId) {
     try {
-        return bugs.find(bug => bug._id === bugId)
+        const collection = await dbService.getCollection(collectionName)
+        console.log(collection)
+        var bug = await collection.findOne({_id: new ObjectId(bugId)})
+        return bug
     } catch (err) {
         loggerService.error(`Had problem getting bug ${bugId}...`)
         throw err
@@ -53,15 +37,11 @@ async function getById(bugId) {
 
 async function remove(bugId, loggedInUser) {
     try {
-        const idx = bugs.findIndex(bug => bug._id === bugId)
-
-        if(idx === -1) throw `Couldn't find bug with _id ${bugId}`
-
-        const bug = bugs[idx]
+        const collection = await dbService.getCollection(collectionName)
+        var bug = await collection.findOne({_id: new ObjectId(bugId)})
         if(!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw {msg:`Not your bug`, code: 403}
 
-        bugs.splice(idx, 1)
-        _saveBugsToFile(bugsFilePath)
+        await collection.deleteOne({_id: new ObjectId(bugId)})
     } catch (err) {
         loggerService.error(`bugService[remove] bugId - ${bugId} , loggedInUser - ${JSON.stringify(loggedInUser)} : ${err.msg}`)
         throw err
@@ -70,27 +50,54 @@ async function remove(bugId, loggedInUser) {
 
 async function save(bugToSave, loggedInUser) {
     try {
+        const collection = await dbService.getCollection(collectionName)
         if(bugToSave._id) {
-            const idx = bugs.findIndex(bug => bug._id === bugToSave._id)
-            if(idx === -1) throw 'Bad Id'
-
-            const bug = bugs[idx]
+            var bug = await collection.findOne({_id: new ObjectId(bugToSave._id)})
             if(!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw {msg:`Not your bug`, code: 403}
-        
-            bugs.splice(idx, 1, {...bug, ...bugToSave})
+            
+            bugToSave._id = new ObjectId(bugToSave._id)
+            await collection.updateOne({_id: bugToSave._id}, {$set: bugToSave})
         } else {
-            bugToSave._id = _makeId()
             bugToSave.owner = { _id: loggedInUser._id, fullname: loggedInUser.fullname }
-            bugToSave.createdAt = Date.now()
-            bugs.push(bugToSave)
+            await collection.insertOne(bugToSave)
         }
 
-        _saveBugsToFile(bugsFilePath)
         return bugToSave
     } catch (err) {
         loggerService.error(`Had problem saving bug ${bugId}...`)
         throw err
     }
+}
+
+
+function _buildCriteria(filterBy) {
+    // filter
+    let filter = {}
+    if(filterBy.title) {
+        filter.title = { $regex: filterBy.title, $options: 'i' }
+    }
+    if(filterBy.severity) {
+        filter.severity = { $gte: filterBy.severity }
+    }
+    if(filterBy.tags && filterBy.tags.length) {
+        filter.tags = { $all: filterBy.tags }
+    }
+    
+    // sort
+    let sort = {}
+    switch(filterBy.sortBy) {
+        case 'title':
+            sort.title = filterBy.sortDir
+            //sort.options = { collation: { locale: 'en', strength: 2 } }
+            break
+        case 'createdAt':
+            sort._id = filterBy.sortDir
+            break
+        default:
+            sort[filterBy.sortBy] = filterBy.sortDir
+    }
+    
+    return { filter, sort }
 }
 
 function _makeId(length = 6) {
@@ -102,20 +109,4 @@ function _makeId(length = 6) {
     }
 
     return txt
-}
-
-function _readJsonFile(path) {
-    const str = fs.readFileSync(path, 'utf8')
-    const json = JSON.parse(str)
-    return json
-}
-
-function _saveBugsToFile(path) {
-    return new Promise((resolve, reject) => {
-        const data = JSON.stringify(bugs, null, 2)
-        fs.writeFile(path, data, (err) => {
-            if (err) return reject(err)
-            return resolve()
-        })
-    })
 }
