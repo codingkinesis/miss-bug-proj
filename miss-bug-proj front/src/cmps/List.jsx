@@ -6,6 +6,7 @@ export function List({ items, itemType, ItemPreview, onRemoveItem, onEditItem })
   const loggedinUser = userService.getLoggedinUser()
 
   function isOwnedByUser(item) {
+    console.log(item)
     return loggedinUser?.isAdmin || item.owner._id === loggedinUser?._id
   }
 

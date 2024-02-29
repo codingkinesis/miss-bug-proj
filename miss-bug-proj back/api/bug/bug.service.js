@@ -56,6 +56,7 @@ async function save(bugToSave, loggedInUser) {
             if(!loggedInUser.isAdmin && bug.owner._id !== loggedInUser._id) throw {msg:`Not your bug`, code: 403}
             
             bugToSave._id = new ObjectId(bugToSave._id)
+            bugToSave = {...bug, ...bugToSave}
             await collection.updateOne({_id: bugToSave._id}, {$set: bugToSave})
         } else {
             bugToSave.owner = { _id: loggedInUser._id, fullname: loggedInUser.fullname }
